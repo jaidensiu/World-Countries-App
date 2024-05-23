@@ -18,6 +18,7 @@ An Android app that displays country details from a GraphQL API.
 - Kotlin
 - GraphQL
 - Jetpack Compose
+- Apollo Kotlin
 - Hilt
 
 ## Resources
