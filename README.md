@@ -4,7 +4,7 @@ An Android app that displays country details from a GraphQL API.
 
 ## Demo
 
-<img src="https://github.com/jaidensiu/world-countries-app/blob/master/world_countries_demo.gif" width="100%" alt="World Countries demo">
+<img src="https://github.com/jaidensiu/world-countries-app/blob/master/world_countries_demo.gif" height="500px" width="100%" alt="World Countries demo">
 
 ## Countries List View
 
