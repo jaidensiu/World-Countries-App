@@ -1,14 +1,18 @@
 # World Countries App
 
-An Android app that consumes a GraphQL API and displays country details.
+An Android app that displays country details from a GraphQL API.
+
+## Demo
+
+<img src="https://github.com/jaidensiu/world-countries-app/blob/master/world_countries_demo.gif" width="100%" alt="World Countries demo">
 
 ## Countries List View
 
-<img src="countries_list.png" alt="Countries list" height="800px">
+<img src="countries_list.png" alt="Countries list" height="500px">
 
 ## Country Details View
 
-<img src="country_details.png" alt="Countries details" height="800px">
+<img src="country_details.png" alt="Countries details" height="500px">
 
 ## Tech Stack
 - Kotlin
