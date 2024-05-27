@@ -1,7 +1,11 @@
 package com.jaidensiu.worldcountriesapp
 
+import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -16,6 +20,8 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class CountriesScreenTest {
+    private val progressIndicatorId = "progressIndicator"
+
     @get:Rule
     val composeTestRule = createComposeRule()
 
@@ -33,10 +39,10 @@ class CountriesScreenTest {
             }
         }
 
-        composeTestRule.onNodeWithText("World Countries").assertExists()
-//        composeTestRule
-//            .onNodeWithTag(testTag = "circularProgressIndicator")
-//            .assertIsDisplayed()
+        composeTestRule.onNodeWithText(text = "World Countries")
+            .assertExists()
+        composeTestRule.onNode(matcher = hasTestTag(testTag = progressIndicatorId))
+            .assertIsDisplayed()
     }
 
     @Test
@@ -67,8 +73,10 @@ class CountriesScreenTest {
             }
         }
 
-        composeTestRule.onNodeWithText("United States").assertExists()
-        composeTestRule.onNodeWithText("Canada").assertExists()
+        composeTestRule.onNodeWithText(text = "United States")
+            .assertExists()
+        composeTestRule.onNodeWithText(text = "Canada")
+            .assertExists()
     }
 
     @Test
@@ -124,12 +132,11 @@ class CountriesScreenTest {
             }
         }
 
-        composeTestRule.onNodeWithText("Canada").performClick()
+        composeTestRule.onNodeWithTag("countryItem")
+            .assertIsDisplayed()
+            .assert(hasText("Canada"))
+        composeTestRule.onNodeWithText("Canada")
+            .performClick()
         assert(selectedCountryCode == "CA")
-        composeTestRule.onNodeWithText(text = "Canada").assertIsDisplayed()
-//        composeTestRule.onNodeWithText(text = "Continent: North America").assertIsDisplayed()
-//        composeTestRule.onNodeWithText(text = "Currency: CAD").assertIsDisplayed()
-//        composeTestRule.onNodeWithText(text = "Capital: Ottawa").assertIsDisplayed()
-//        composeTestRule.onNodeWithText(text = "Language(s): English, French").assertIsDisplayed()
     }
 }

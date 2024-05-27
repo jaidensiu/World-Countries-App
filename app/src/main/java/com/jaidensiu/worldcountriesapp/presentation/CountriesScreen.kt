@@ -48,8 +48,7 @@ fun CountriesScreen(
                         fontSize = 32.sp
                     )
                 },
-                modifier = Modifier
-                    .height(96.dp),
+                modifier = Modifier.height(96.dp),
                 backgroundColor = MaterialTheme.colors.primary
             )
         },
@@ -165,7 +164,7 @@ private fun CountryItem(
     country: SimpleCountry
 ) {
     Row(
-        modifier = modifier,
+        modifier = modifier.testTag("countryItem"),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
