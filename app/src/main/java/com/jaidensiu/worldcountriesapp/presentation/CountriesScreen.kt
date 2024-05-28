@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
@@ -29,6 +31,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.navigation.NavController
 import com.jaidensiu.worldcountriesapp.domain.DetailedCountry
 import com.jaidensiu.worldcountriesapp.domain.SimpleCountry
 
@@ -37,7 +40,8 @@ fun CountriesScreen(
     modifier: Modifier = Modifier,
     state: CountriesViewModel.CountriesState,
     onSelectCountry: (code: String) -> Unit,
-    onDismissCountryDialog: () -> Unit
+    onDismissCountryDialog: () -> Unit,
+    navController: NavController
 ) {
     Scaffold(
         topBar = {
@@ -83,12 +87,13 @@ fun CountriesScreen(
 
                     if (state.selectedCountry != null) {
                         CountryDialog(
-                            country = state.selectedCountry,
-                            onDismiss = onDismissCountryDialog,
                             modifier = Modifier
                                 .clip(RoundedCornerShape(5.dp))
                                 .background(Color.White)
-                                .padding(16.dp)
+                                .padding(16.dp),
+                            country = state.selectedCountry,
+                            onDismiss = onDismissCountryDialog,
+                            navController = navController
                         )
                     }
                 }
@@ -99,13 +104,21 @@ fun CountriesScreen(
 
 @Composable
 private fun CountryDialog(
+    modifier: Modifier = Modifier,
     country: DetailedCountry,
     onDismiss: () -> Unit,
-    modifier: Modifier = Modifier
+    navController: NavController
 ) {
     val joinedLanguages = remember(country.languages) {
         country.languages.joinToString()
     }
+    val countryDetailsMap = mapOf(
+        "Continent" to country.continent,
+        "Currency" to country.currency,
+        "Capital" to country.capital,
+        "Language(s)" to joinedLanguages
+    )
+
     Dialog(
         onDismissRequest = onDismiss
     ) {
@@ -113,11 +126,13 @@ private fun CountryDialog(
             modifier = modifier
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp)
             ) {
                 Text(
                     text = country.emoji,
-                    fontSize = 30.sp
+                    fontSize = 24.sp
                 )
                 Spacer(
                     modifier = Modifier.width(16.dp)
@@ -127,32 +142,30 @@ private fun CountryDialog(
                     fontSize = 24.sp
                 )
             }
-            Spacer(
-                modifier = Modifier.height(16.dp)
-            )
-            Text(
-                text = "Continent: " + country.continent
-            )
-            Spacer(
-                modifier = Modifier.height(8.dp)
-            )
-            Text(
-                text = "Currency: " + country.currency
-            )
-            Spacer(
-                modifier = Modifier.height(8.dp)
-            )
-            Text(
-                text = "Capital: " + country.capital
-            )
-            Spacer(
-                modifier = Modifier.height(8.dp)
-            )
-            Text(
-                text = "Language(s): $joinedLanguages"
-            )
-            Spacer(
-                modifier = Modifier.height(8.dp)
+            for ((label, value) in countryDetailsMap) {
+                Text(text = "$label: $value")
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+            Button(
+                onClick = {
+                    navController.navigate(route = "mapScreen")
+                },
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(top = 16.dp),
+                elevation = ButtonDefaults.elevation(
+                    defaultElevation = 0.dp,
+                    pressedElevation = 0.dp,
+                    disabledElevation = 0.dp,
+                    hoveredElevation = 0.dp,
+                    focusedElevation = 0.dp
+                ),
+                content = {
+                    Text(
+                        text = "View on Map",
+                        fontSize = 16.sp
+                    )
+                }
             )
         }
     }

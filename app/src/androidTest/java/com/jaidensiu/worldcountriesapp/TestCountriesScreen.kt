@@ -8,6 +8,7 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.navigation.compose.rememberNavController
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.jaidensiu.worldcountriesapp.domain.DetailedCountry
 import com.jaidensiu.worldcountriesapp.domain.SimpleCountry
@@ -30,17 +31,19 @@ class CountriesScreenTest {
         val state = CountriesViewModel.CountriesState(isLoading = true)
 
         composeTestRule.setContent {
+            val navController = rememberNavController()
             WorldCountriesAppTheme {
                 CountriesScreen(
                     state = state,
                     onSelectCountry = {},
-                    onDismissCountryDialog = {}
+                    onDismissCountryDialog = {},
+                    navController = navController
                 )
             }
         }
 
         composeTestRule.onNodeWithText(text = "World Countries")
-            .assertExists()
+            .assertIsDisplayed()
         composeTestRule.onNode(matcher = hasTestTag(testTag = progressIndicatorId))
             .assertIsDisplayed()
     }
@@ -64,19 +67,21 @@ class CountriesScreenTest {
         val state = CountriesViewModel.CountriesState(countries = countries)
 
         composeTestRule.setContent {
+            val navController = rememberNavController()
             WorldCountriesAppTheme {
                 CountriesScreen(
                     state = state,
                     onSelectCountry = {},
-                    onDismissCountryDialog = {}
+                    onDismissCountryDialog = {},
+                    navController = navController
                 )
             }
         }
 
         composeTestRule.onNodeWithText(text = "United States")
-            .assertExists()
+            .assertIsDisplayed()
         composeTestRule.onNodeWithText(text = "Canada")
-            .assertExists()
+            .assertIsDisplayed()
     }
 
     @Test
@@ -93,20 +98,27 @@ class CountriesScreenTest {
         val state = CountriesViewModel.CountriesState(selectedCountry = selectedCountry)
 
         composeTestRule.setContent {
+            val navController = rememberNavController()
             WorldCountriesAppTheme {
                 CountriesScreen(
                     state = state,
                     onSelectCountry = {},
-                    onDismissCountryDialog = {}
+                    onDismissCountryDialog = {},
+                    navController = navController
                 )
             }
         }
 
-        composeTestRule.onNodeWithText("United States").assertExists()
-        composeTestRule.onNodeWithText("Continent: North America").assertExists()
-        composeTestRule.onNodeWithText("Currency: USD").assertExists()
-        composeTestRule.onNodeWithText("Capital: Washington D.C.").assertExists()
-        composeTestRule.onNodeWithText("Language(s): English").assertExists()
+        composeTestRule.onNodeWithText("United States")
+            .assertIsDisplayed()
+        composeTestRule.onNodeWithText("Continent: North America")
+            .assertIsDisplayed()
+        composeTestRule.onNodeWithText("Currency: USD")
+            .assertIsDisplayed()
+        composeTestRule.onNodeWithText("Capital: Washington D.C.")
+            .assertIsDisplayed()
+        composeTestRule.onNodeWithText("Language(s): English")
+            .assertIsDisplayed()
     }
 
     @Test
@@ -123,11 +135,13 @@ class CountriesScreenTest {
         var selectedCountryCode: String? = null
 
         composeTestRule.setContent {
+            val navController = rememberNavController()
             WorldCountriesAppTheme {
                 CountriesScreen(
                     state = state,
                     onSelectCountry = { code -> selectedCountryCode = code },
-                    onDismissCountryDialog = {}
+                    onDismissCountryDialog = {},
+                    navController = navController
                 )
             }
         }
