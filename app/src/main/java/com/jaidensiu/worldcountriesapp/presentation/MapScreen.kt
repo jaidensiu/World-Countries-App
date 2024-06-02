@@ -15,7 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.jaidensiu.graphqlprep.R
+import com.jaidensiu.worldcountriesapp.R
 
 @Composable
 fun MapScreen(

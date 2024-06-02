@@ -13,7 +13,7 @@ apollo {
 }
 
 android {
-    namespace = "com.jaidensiu.graphqlprep"
+    namespace = "com.jaidensiu.worldcountriesapp"
     compileSdk = 33
 
     defaultConfig {
