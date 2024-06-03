@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
+import com.jaidensiu.worldcountriesapp.BuildConfig
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
@@ -18,9 +19,9 @@ fun OsmMapView(
     AndroidView(
         modifier = modifier.fillMaxSize(),
         factory = { context ->
-            Configuration.getInstance().userAgentValue = "com.jaidensiu.worldcountriesapp"
+            Configuration.getInstance().userAgentValue = BuildConfig.APPLICATION_ID
             MapView(context).apply {
-                setTileSource(TileSourceFactory.MAPNIK)
+                setTileSource(TileSourceFactory.USGS_TOPO)
                 setScrollableAreaLimitLatitude(
                     MapView.getTileSystem().maxLatitude,
                     MapView.getTileSystem().minLatitude,
