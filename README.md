@@ -24,3 +24,4 @@ An Android app that displays country details from a GraphQL API.
 ## Resources
 - https://github.com/trevorblades/countries
 - https://studio.apollographql.com/public/countries/variant/current/home
+- https://github.com/osmdroid/osmdroid

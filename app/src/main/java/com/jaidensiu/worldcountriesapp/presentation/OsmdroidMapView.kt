@@ -45,6 +45,7 @@ fun OsmMapView(
                 marker.setPosition(geoPoint)
                 marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
                 this.overlays.add(marker)
+                this.invalidate()
             }
         }
     )
