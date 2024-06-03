@@ -8,6 +8,7 @@ import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
+import org.osmdroid.views.overlay.Marker
 
 @Composable
 fun OsmMapView(
@@ -39,6 +40,11 @@ fun OsmMapView(
                 this.isVerticalMapRepetitionEnabled = false
                 this.controller.setCenter(geoPoint)
                 this.controller.setZoom(7.0)
+                val marker = Marker(this)
+                marker.setOnMarkerClickListener { _, _ -> true }
+                marker.setPosition(geoPoint)
+                marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
+                this.overlays.add(marker)
             }
         }
     )

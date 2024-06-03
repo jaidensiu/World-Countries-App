@@ -1,8 +1,6 @@
 package com.jaidensiu.worldcountriesapp
 
-import android.location.Address
 import android.location.Geocoder
-import android.location.Geocoder.GeocodeListener
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -48,7 +46,6 @@ class MainActivity : ComponentActivity() {
                     val geocoder = Geocoder(this)
                     val addresses = geocoder.getFromLocationName(location, 1)
                     val address = addresses?.firstOrNull()
-
                     if (address != null) {
                         latitude = address.latitude
                         longitude = address.longitude
