@@ -39,7 +39,7 @@ fun OsmMapView(modifier: Modifier = Modifier, geoPoint: GeoPoint) {
                 setMultiTouchControls(true)
                 setUseDataConnection(true)
                 this.maxZoomLevel = 20.0
-                this.minZoomLevel = 3.0
+                this.minZoomLevel = 4.0
                 this.isHorizontalMapRepetitionEnabled = false
                 this.isVerticalMapRepetitionEnabled = false
                 this.controller.setCenter(geoPoint)
