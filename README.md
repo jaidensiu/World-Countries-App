@@ -14,6 +14,10 @@ An Android app that displays country details from a GraphQL API.
 
 <img src="country_details.png" alt="Countries details" height="500px">
 
+## Country Map View
+
+<img src="country_map.png" alt="Country map" height="500px">
+
 ## Tech Stack
 - Kotlin
 - GraphQL
