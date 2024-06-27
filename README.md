@@ -1,6 +1,6 @@
 # World Countries App
 
-An Android app that displays country details from a GraphQL API.
+An Android app that displays country details and view a selected country on a map.
 
 ## Demo
 
