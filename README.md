@@ -24,6 +24,9 @@ An Android app that displays country details and view a selected country on a ma
 - Jetpack Compose
 - Apollo Kotlin
 - Hilt
+- JUnit
+- Mockito
+- GitHub Actions
 
 ## Resources
 - https://github.com/trevorblades/countries
