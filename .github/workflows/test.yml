@@ -10,25 +10,26 @@ on:
 
 jobs:
   ui-tests:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
+    
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           java-version: 17
           distribution: 'adopt'
           cache: 'gradle'
         
       - name: Run connected tests
-        uses: reactivecircus/android-emulator-runner@v2
+        uses: ReactiveCircus/android-emulator-runner@v2
         with:
           api-level: 30
           target: google_apis
           arch: x86_64
-          script: ./gradlew connectedAndroidTest
+          script: ./gradlew connectedCheck
 
   unit-tests:
     runs-on: ubuntu-latest
