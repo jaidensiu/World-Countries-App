@@ -30,7 +30,8 @@ class MainActivity : ComponentActivity() {
                 val color = MaterialTheme.colors.primary
                 val navController = rememberNavController()
                 val viewModel = hiltViewModel<CountriesViewModel>()
-                val state by viewModel.state.collectAsState()
+                val countriesState by viewModel.countriesState.collectAsState()
+                val searchBarState by viewModel.countrySearchBarState.collectAsState()
                 var latitude = 0.0
                 var longitude = 0.0
 
@@ -41,8 +42,8 @@ class MainActivity : ComponentActivity() {
                     )
                 }
 
-                if (state.selectedCountry != null) {
-                    val location = state.selectedCountry?.name ?: ""
+                if (countriesState.selectedCountry != null) {
+                    val location = countriesState.selectedCountry?.name ?: ""
                     val geocoder = Geocoder(this)
                     val addresses = geocoder.getFromLocationName(location, 1)
                     val address = addresses?.firstOrNull()
@@ -58,17 +59,20 @@ class MainActivity : ComponentActivity() {
                 ) {
                     composable(route = "countriesScreen") {
                         CountriesScreen(
-                            state = state,
+                            countriesState = countriesState,
+                            countrySearchBarState = searchBarState,
                             onSelectCountry = viewModel::selectCountry,
                             onDismissCountryDialog = viewModel::dismissCountryDialog,
-                            onIconButtonClick = viewModel::filterCountries,
+                            onFilterCountries = viewModel::filterCountries,
                             resetCountries = viewModel::resetCountries,
+                            onToggleSearchBar = viewModel::onToggleSearchBar,
+                            onUpdateSearchQuery = viewModel::onUpdateSearchQuery,
                             navController = navController
                         )
                     }
                     composable(route = "mapScreen") {
                         MapScreen(
-                            country = state.selectedCountry!!.name,
+                            country = countriesState.selectedCountry?.name ?: "",
                             latitude = latitude,
                             longitude = longitude,
                             navController = navController

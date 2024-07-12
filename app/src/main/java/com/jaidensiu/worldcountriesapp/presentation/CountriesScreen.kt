@@ -27,8 +27,6 @@ import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,36 +46,27 @@ import com.jaidensiu.worldcountriesapp.domain.SimpleCountry
 @Composable
 fun CountriesScreen(
     modifier: Modifier = Modifier,
-    state: CountriesState,
+    countriesState: CountriesState,
+    countrySearchBarState: CountrySearchBarState,
     onSelectCountry: (code: String) -> Unit,
     onDismissCountryDialog: () -> Unit,
-    onIconButtonClick: (String) -> Unit,
+    onFilterCountries: (String) -> Unit,
     resetCountries: () -> Unit,
+    onToggleSearchBar: () -> Unit,
+    onUpdateSearchQuery: (String) -> Unit,
     navController: NavController
 ) {
-    val showSearchBar = remember { mutableStateOf(value = false) }
-    val searchQuery = remember { mutableStateOf(value = "") }
-    val showCountryDialog = remember { mutableStateOf(value = false) }
-
-    LaunchedEffect(navController) {
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.route != "mapScreen") {
-                showCountryDialog.value = false
-            }
-        }
-    }
-
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
-                    if (showSearchBar.value) {
+                    if (countrySearchBarState.showSearchBar) {
                         TextField(
-                            value = searchQuery.value,
+                            value = countrySearchBarState.searchQuery,
                             onValueChange = {
                                 if (it.length <= 15) {
-                                    searchQuery.value = it
-                                    onIconButtonClick(it)
+                                    onUpdateSearchQuery(it)
+                                    onFilterCountries(it)
                                 }
                             },
                             maxLines = 1,
@@ -97,15 +86,15 @@ fun CountriesScreen(
                 navigationIcon = {
                     IconButton(
                         onClick = {
-                            if (showSearchBar.value) {
-                                searchQuery.value = ""
+                            if (countrySearchBarState.showSearchBar) {
+                                onUpdateSearchQuery("")
                                 resetCountries()
                             }
-                            showSearchBar.value = !showSearchBar.value
+                            onToggleSearchBar()
                         },
                         modifier = Modifier.padding(horizontal = 12.dp)
                     ) {
-                        if (showSearchBar.value) {
+                        if (countrySearchBarState.showSearchBar) {
                             Icon(
                                 painter = painterResource(id = R.drawable.ic_back_arrow),
                                 contentDescription = "Back arrow icon",
@@ -129,7 +118,7 @@ fun CountriesScreen(
                     .fillMaxSize()
                     .padding(paddingValues)
             ) {
-                if (state.isLoading) {
+                if (countriesState.isLoading) {
                     CircularProgressIndicator(
                         modifier = Modifier
                             .align(Alignment.Center)
@@ -139,33 +128,28 @@ fun CountriesScreen(
                     LazyColumn(
                         modifier = Modifier.fillMaxSize()
                     ) {
-                        items(state.countries) { country ->
+                        items(countriesState.countries) { country ->
                             CountryItem(
                                 country = country,
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .clickable {
                                         onSelectCountry(country.code)
-                                        showCountryDialog.value = true
                                     }
                                     .padding(16.dp)
                             )
                         }
                     }
 
-                    if (state.selectedCountry != null && showCountryDialog.value) {
+                    if (countriesState.selectedCountry != null) {
                         CountryDialog(
                             modifier = Modifier
                                 .clip(RoundedCornerShape(5.dp))
                                 .background(Color.White)
                                 .padding(16.dp),
-                            country = state.selectedCountry,
+                            country = countriesState.selectedCountry,
                             onDismiss = {
                                 onDismissCountryDialog()
-                                showCountryDialog.value = false
-                                resetCountries()
-                                showSearchBar.value = false
-                                searchQuery.value = ""
                             },
                             navController = navController
                         )

@@ -34,7 +34,7 @@ class CountriesScreenTest {
             val navController = rememberNavController()
             WorldCountriesAppTheme {
                 CountriesScreen(
-                    state = state,
+                    countriesState = state,
                     onSelectCountry = {},
                     onDismissCountryDialog = {},
                     navController = navController
@@ -70,7 +70,7 @@ class CountriesScreenTest {
             val navController = rememberNavController()
             WorldCountriesAppTheme {
                 CountriesScreen(
-                    state = state,
+                    countriesState = state,
                     onSelectCountry = {},
                     onDismissCountryDialog = {},
                     navController = navController
@@ -101,7 +101,7 @@ class CountriesScreenTest {
             val navController = rememberNavController()
             WorldCountriesAppTheme {
                 CountriesScreen(
-                    state = state,
+                    countriesState = state,
                     onSelectCountry = {},
                     onDismissCountryDialog = {},
                     navController = navController
@@ -138,7 +138,7 @@ class CountriesScreenTest {
             val navController = rememberNavController()
             WorldCountriesAppTheme {
                 CountriesScreen(
-                    state = state,
+                    countriesState = state,
                     onSelectCountry = { code -> selectedCountryCode = code },
                     onDismissCountryDialog = {},
                     navController = navController

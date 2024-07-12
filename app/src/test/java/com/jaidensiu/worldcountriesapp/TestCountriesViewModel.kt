@@ -50,7 +50,7 @@ class TestCountriesViewModel {
                 capital = "Washington D.C."
             )
         )
-        viewModel.state.runCatching {
+        viewModel.countriesState.runCatching {
             assertEquals(true, this.value.isLoading)
             `when`(getCountriesUseCase.execute()).thenReturn(expectedCountries)
             assertEquals(false, this.value.isLoading)
@@ -72,7 +72,7 @@ class TestCountriesViewModel {
         )
         `when`(getCountryUseCase.execute(countryCode)).thenReturn(expectedCountry)
         viewModel.selectCountry(countryCode)
-        viewModel.state.runCatching {
+        viewModel.countriesState.runCatching {
             assertEquals(expectedCountry, this.value.selectedCountry)
         }
     }
@@ -92,7 +92,7 @@ class TestCountriesViewModel {
         `when`(getCountryUseCase.execute(countryCode)).thenReturn(expectedCountry)
         viewModel.selectCountry(countryCode)
         viewModel.dismissCountryDialog()
-        viewModel.state.runCatching {
+        viewModel.countriesState.runCatching {
             assertEquals(null, this.value.selectedCountry)
         }
     }
