@@ -20,12 +20,15 @@ class CountriesViewModel @Inject constructor(
 ): ViewModel() {
     private val _state = MutableStateFlow(CountriesState())
     val state = _state.asStateFlow()
+    private val originalCountries = mutableListOf<SimpleCountry>()
 
     init {
         viewModelScope.launch {
             _state.update {
                 it.copy(isLoading = true)
             }
+            val countries = getCountriesUseCase.execute()
+            originalCountries.addAll(countries)
             _state.update {
                 it.copy(
                     countries = getCountriesUseCase.execute(),
@@ -46,6 +49,31 @@ class CountriesViewModel @Inject constructor(
     fun dismissCountryDialog() {
         _state.update {
             it.copy(selectedCountry = null)
+        }
+    }
+
+    fun filterCountries(query: String) {
+        val filteredCountries = originalCountries.filter {
+            it.name.lowercase().contains(other = query.trim(), ignoreCase = true)
+        }
+        _state.update {
+            it.copy(countries = filteredCountries)
+        }
+    }
+
+    fun resetCountries() {
+        viewModelScope.launch {
+            _state.update {
+                it.copy(isLoading = true)
+            }
+            val countries = getCountriesUseCase.execute()
+            originalCountries.addAll(countries)
+            _state.update {
+                it.copy(
+                    countries = getCountriesUseCase.execute(),
+                    isLoading = false
+                )
+            }
         }
     }
 

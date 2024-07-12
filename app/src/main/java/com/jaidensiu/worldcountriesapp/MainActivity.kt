@@ -61,6 +61,8 @@ class MainActivity : ComponentActivity() {
                             state = state,
                             onSelectCountry = viewModel::selectCountry,
                             onDismissCountryDialog = viewModel::dismissCountryDialog,
+                            onIconButtonClick = viewModel::filterCountries,
+                            resetCountries = viewModel::resetCountries,
                             navController = navController
                         )
                     }

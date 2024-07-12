@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -17,21 +18,29 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
+import com.jaidensiu.worldcountriesapp.R
 import com.jaidensiu.worldcountriesapp.domain.DetailedCountry
 import com.jaidensiu.worldcountriesapp.domain.SimpleCountry
 
@@ -41,18 +50,66 @@ fun CountriesScreen(
     state: CountriesViewModel.CountriesState,
     onSelectCountry: (code: String) -> Unit,
     onDismissCountryDialog: () -> Unit,
+    onIconButtonClick: (String) -> Unit,
+    resetCountries: () -> Unit,
     navController: NavController
 ) {
+    val showSearchBar = remember { mutableStateOf(value = false) }
+    val searchQuery = remember { mutableStateOf(value = "") }
+
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(
-                        text = "World Countries",
-                        fontSize = 32.sp
-                    )
+                    if (showSearchBar.value) {
+                        TextField(
+                            value = searchQuery.value,
+                            onValueChange = {
+                                if (it.length <= 15) {
+                                    searchQuery.value = it
+                                    onIconButtonClick(it)
+                                }
+                            },
+                            maxLines = 1,
+                            textStyle = TextStyle(fontSize = 24.sp, color = Color.White),
+                            colors = TextFieldDefaults.textFieldColors(
+                                cursorColor = Color.White
+                            )
+                        )
+                    } else {
+                        Text(
+                            text = "World Countries",
+                            fontSize = 32.sp
+                        )
+                    }
                 },
                 modifier = Modifier.height(96.dp),
+                navigationIcon = {
+                    IconButton(
+                        onClick = {
+                            if (showSearchBar.value) {
+                                searchQuery.value = ""
+                                resetCountries()
+                            }
+                            showSearchBar.value = !showSearchBar.value
+                        },
+                        modifier = Modifier.padding(horizontal = 12.dp)
+                    ) {
+                        if (showSearchBar.value) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_back_arrow),
+                                contentDescription = "Back arrow icon",
+                                modifier = Modifier.size(32.dp)
+                            )
+                        } else {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_search),
+                                contentDescription = "Search icon",
+                                modifier = Modifier.size(32.dp)
+                            )
+                        }
+                    }
+                },
                 backgroundColor = MaterialTheme.colors.primary
             )
         },
@@ -66,7 +123,7 @@ fun CountriesScreen(
                     CircularProgressIndicator(
                         modifier = Modifier
                             .align(Alignment.Center)
-                            .testTag("progressIndicator")
+                            .testTag(tag = "progressIndicator")
                     )
                 } else {
                     LazyColumn(
@@ -77,9 +134,7 @@ fun CountriesScreen(
                                 country = country,
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .clickable {
-                                        onSelectCountry(country.code)
-                                    }
+                                    .clickable { onSelectCountry(country.code) }
                                     .padding(16.dp)
                             )
                         }
