@@ -25,11 +25,11 @@ class CountriesViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
+            val countries = getCountriesUseCase.execute()
+            originalCountries.addAll(countries)
             _countriesState.update {
                 it.copy(isLoading = true)
             }
-            val countries = getCountriesUseCase.execute()
-            originalCountries.addAll(countries)
             _countriesState.update {
                 it.copy(
                     countries = getCountriesUseCase.execute(),
@@ -67,8 +67,6 @@ class CountriesViewModel @Inject constructor(
             _countriesState.update {
                 it.copy(isLoading = true)
             }
-            val countries = getCountriesUseCase.execute()
-            originalCountries.addAll(countries)
             _countriesState.update {
                 it.copy(
                     countries = getCountriesUseCase.execute(),
