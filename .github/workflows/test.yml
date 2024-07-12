@@ -11,7 +11,6 @@ on:
 jobs:
   ui-tests:
     runs-on: macos-latest
-    
     steps:
       - name: Checkout
         uses: actions/checkout@v3
