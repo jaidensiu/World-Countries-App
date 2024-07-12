@@ -27,6 +27,7 @@ import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -47,7 +48,7 @@ import com.jaidensiu.worldcountriesapp.domain.SimpleCountry
 @Composable
 fun CountriesScreen(
     modifier: Modifier = Modifier,
-    state: CountriesViewModel.CountriesState,
+    state: CountriesState,
     onSelectCountry: (code: String) -> Unit,
     onDismissCountryDialog: () -> Unit,
     onIconButtonClick: (String) -> Unit,
@@ -56,6 +57,15 @@ fun CountriesScreen(
 ) {
     val showSearchBar = remember { mutableStateOf(value = false) }
     val searchQuery = remember { mutableStateOf(value = "") }
+    val showCountryDialog = remember { mutableStateOf(value = false) }
+
+    LaunchedEffect(navController) {
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if (destination.route != "mapScreen") {
+                showCountryDialog.value = false
+            }
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -134,20 +144,29 @@ fun CountriesScreen(
                                 country = country,
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .clickable { onSelectCountry(country.code) }
+                                    .clickable {
+                                        onSelectCountry(country.code)
+                                        showCountryDialog.value = true
+                                    }
                                     .padding(16.dp)
                             )
                         }
                     }
 
-                    if (state.selectedCountry != null) {
+                    if (state.selectedCountry != null && showCountryDialog.value) {
                         CountryDialog(
                             modifier = Modifier
                                 .clip(RoundedCornerShape(5.dp))
                                 .background(Color.White)
                                 .padding(16.dp),
                             country = state.selectedCountry,
-                            onDismiss = onDismissCountryDialog,
+                            onDismiss = {
+                                onDismissCountryDialog()
+                                showCountryDialog.value = false
+                                resetCountries()
+                                showSearchBar.value = false
+                                searchQuery.value = ""
+                            },
                             navController = navController
                         )
                     }
