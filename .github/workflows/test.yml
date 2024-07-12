@@ -9,60 +9,29 @@ on:
       - master
 
 jobs:
-  ui-test:
-    runs-on: ubuntu-latest
-    services:
-      xvfb:
-        image: 'ubuntu:20.04'
-        options: '--privileged'
+  ui-tests:
+    runs-on: macos-latest
+    
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v3
 
       - name: Set up JDK 11
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
+          java-version: 11
           distribution: 'adopt'
-          java-version: '11'
-
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v2
+          cache: 'gradle'
+        
+      - name: Run connected tests
+        uses: ReactiveCircus/android-emulator-runner@v2
         with:
           api-level: 30
-          build-tools: 30.0.3
+          target: google_apis
+          arch: x86_64
+          script: ./gradlew connectedCheck
 
-      - name: Start Android Emulator
-        run: |
-          sudo apt-get install qemu-kvm -y
-          sdkmanager "system-images;android-30;google_apis;x86_64"
-          echo "no" | avdmanager create avd -n test -k "system-images;android-30;google_apis;x86_64" --device "Nexus 6P"
-          nohup emulator -avd test -no-window -no-audio -no-boot-anim -accel auto -gpu swiftshader_indirect &
-          adb wait-for-device
-          adb shell input keyevent 82 &
-
-      - name: Wait for Android Emulator to finish booting
-        run: |
-          EMULATOR_BOOTED=0
-          ADB_BOOT_WAIT_TRIES=20
-          until [ "$EMULATOR_BOOTED" -eq 1 ] || [ "$ADB_BOOT_WAIT_TRIES" -eq 0 ]; do
-            EMULATOR_BOOTED=$(adb shell getprop sys.boot_completed 2>/dev/null)
-            if [ "$EMULATOR_BOOTED" -eq 1 ]; then
-              echo "Emulator booted."
-            else
-              echo "Waiting for emulator to boot..."
-              sleep 15
-              ADB_BOOT_WAIT_TRIES=$((ADB_BOOT_WAIT_TRIES - 1))
-            fi
-          done
-          if [ "$EMULATOR_BOOTED" -ne 1 ]; then
-            echo "Emulator failed to boot in time." >&2
-            exit 1
-          fi
-
-      - name: Run UI Tests
-        run: ./gradlew connectedAndroidTest
-
-  unit-test:
+  unit-tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
