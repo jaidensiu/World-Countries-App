@@ -13,7 +13,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.jaidensiu.worldcountriesapp.domain.DetailedCountry
 import com.jaidensiu.worldcountriesapp.domain.SimpleCountry
 import com.jaidensiu.worldcountriesapp.presentation.CountriesScreen
-import com.jaidensiu.worldcountriesapp.presentation.CountriesViewModel
+import com.jaidensiu.worldcountriesapp.presentation.CountriesState
+import com.jaidensiu.worldcountriesapp.presentation.CountrySearchBarState
 import com.jaidensiu.worldcountriesapp.ui.theme.WorldCountriesAppTheme
 import org.junit.Rule
 import org.junit.Test
@@ -28,15 +29,20 @@ class CountriesScreenTest {
 
     @Test
     fun testLoadingAndTopAppBar() {
-        val state = CountriesViewModel.CountriesState(isLoading = true)
+        val countriesState = CountriesState(isLoading = true)
 
         composeTestRule.setContent {
             val navController = rememberNavController()
             WorldCountriesAppTheme {
                 CountriesScreen(
-                    countriesState = state,
+                    countriesState = countriesState,
+                    countrySearchBarState = CountrySearchBarState(),
                     onSelectCountry = {},
                     onDismissCountryDialog = {},
+                    onFilterCountries = {},
+                    onResetCountries = {},
+                    onToggleSearchBar = {},
+                    onUpdateSearchQuery = {},
                     navController = navController
                 )
             }
@@ -64,15 +70,20 @@ class CountriesScreenTest {
                 capital = "Washington D.C."
             )
         )
-        val state = CountriesViewModel.CountriesState(countries = countries)
+        val countriesState = CountriesState(countries = countries)
 
         composeTestRule.setContent {
             val navController = rememberNavController()
             WorldCountriesAppTheme {
                 CountriesScreen(
-                    countriesState = state,
+                    countriesState = countriesState,
+                    countrySearchBarState = CountrySearchBarState(),
                     onSelectCountry = {},
                     onDismissCountryDialog = {},
+                    onFilterCountries = {},
+                    onResetCountries = {},
+                    onToggleSearchBar = {},
+                    onUpdateSearchQuery = {},
                     navController = navController
                 )
             }
@@ -95,15 +106,20 @@ class CountriesScreenTest {
             languages = listOf("English"),
             continent = "North America"
         )
-        val state = CountriesViewModel.CountriesState(selectedCountry = selectedCountry)
+        val countriesState = CountriesState(selectedCountry = selectedCountry)
 
         composeTestRule.setContent {
             val navController = rememberNavController()
             WorldCountriesAppTheme {
                 CountriesScreen(
-                    countriesState = state,
+                    countriesState = countriesState,
+                    countrySearchBarState = CountrySearchBarState(),
                     onSelectCountry = {},
                     onDismissCountryDialog = {},
+                    onFilterCountries = {},
+                    onResetCountries = {},
+                    onToggleSearchBar = {},
+                    onUpdateSearchQuery = {},
                     navController = navController
                 )
             }
@@ -131,16 +147,21 @@ class CountriesScreenTest {
                 capital = "Ottawa"
             )
         )
-        val state = CountriesViewModel.CountriesState(countries = countries)
+        val countriesState = CountriesState(countries = countries)
         var selectedCountryCode: String? = null
 
         composeTestRule.setContent {
             val navController = rememberNavController()
             WorldCountriesAppTheme {
                 CountriesScreen(
-                    countriesState = state,
+                    countriesState = countriesState,
+                    countrySearchBarState = CountrySearchBarState(),
                     onSelectCountry = { code -> selectedCountryCode = code },
                     onDismissCountryDialog = {},
+                    onFilterCountries = {},
+                    onResetCountries = {},
+                    onToggleSearchBar = {},
+                    onUpdateSearchQuery = {},
                     navController = navController
                 )
             }

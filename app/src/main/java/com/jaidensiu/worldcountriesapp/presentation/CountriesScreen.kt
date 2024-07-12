@@ -51,7 +51,7 @@ fun CountriesScreen(
     onSelectCountry: (code: String) -> Unit,
     onDismissCountryDialog: () -> Unit,
     onFilterCountries: (String) -> Unit,
-    resetCountries: () -> Unit,
+    onResetCountries: () -> Unit,
     onToggleSearchBar: () -> Unit,
     onUpdateSearchQuery: (String) -> Unit,
     navController: NavController
@@ -88,7 +88,7 @@ fun CountriesScreen(
                         onClick = {
                             if (countrySearchBarState.showSearchBar) {
                                 onUpdateSearchQuery("")
-                                resetCountries()
+                                onResetCountries()
                             }
                             onToggleSearchBar()
                         },

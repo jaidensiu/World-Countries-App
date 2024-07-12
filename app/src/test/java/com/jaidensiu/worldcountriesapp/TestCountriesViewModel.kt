@@ -71,7 +71,7 @@ class TestCountriesViewModel {
             continent = "North America"
         )
         `when`(getCountryUseCase.execute(countryCode)).thenReturn(expectedCountry)
-        viewModel.selectCountry(countryCode)
+        viewModel.onSelectCountry(countryCode)
         viewModel.countriesState.runCatching {
             assertEquals(expectedCountry, this.value.selectedCountry)
         }
@@ -90,8 +90,8 @@ class TestCountriesViewModel {
             continent = "North America"
         )
         `when`(getCountryUseCase.execute(countryCode)).thenReturn(expectedCountry)
-        viewModel.selectCountry(countryCode)
-        viewModel.dismissCountryDialog()
+        viewModel.onSelectCountry(countryCode)
+        viewModel.onDismissCountryDialog()
         viewModel.countriesState.runCatching {
             assertEquals(null, this.value.selectedCountry)
         }

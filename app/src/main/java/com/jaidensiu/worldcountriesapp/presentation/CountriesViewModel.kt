@@ -39,7 +39,7 @@ class CountriesViewModel @Inject constructor(
         }
     }
 
-    fun selectCountry(code: String) {
+    fun onSelectCountry(code: String) {
         viewModelScope.launch {
             _countriesState.update {
                 it.copy(selectedCountry = getCountryUseCase.execute(code))
@@ -47,13 +47,13 @@ class CountriesViewModel @Inject constructor(
         }
     }
 
-    fun dismissCountryDialog() {
+    fun onDismissCountryDialog() {
         _countriesState.update {
             it.copy(selectedCountry = null)
         }
     }
 
-    fun filterCountries(query: String) {
+    fun onFilterCountries(query: String) {
         val filteredCountries = originalCountries.filter {
             it.name.lowercase().contains(other = query.trim(), ignoreCase = true)
         }
@@ -62,7 +62,7 @@ class CountriesViewModel @Inject constructor(
         }
     }
 
-    fun resetCountries() {
+    fun onResetCountries() {
         viewModelScope.launch {
             _countriesState.update {
                 it.copy(isLoading = true)

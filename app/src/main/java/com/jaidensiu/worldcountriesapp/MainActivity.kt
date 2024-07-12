@@ -61,10 +61,10 @@ class MainActivity : ComponentActivity() {
                         CountriesScreen(
                             countriesState = countriesState,
                             countrySearchBarState = searchBarState,
-                            onSelectCountry = viewModel::selectCountry,
-                            onDismissCountryDialog = viewModel::dismissCountryDialog,
-                            onFilterCountries = viewModel::filterCountries,
-                            resetCountries = viewModel::resetCountries,
+                            onSelectCountry = viewModel::onSelectCountry,
+                            onDismissCountryDialog = viewModel::onDismissCountryDialog,
+                            onFilterCountries = viewModel::onFilterCountries,
+                            onResetCountries = viewModel::onResetCountries,
                             onToggleSearchBar = viewModel::onToggleSearchBar,
                             onUpdateSearchQuery = viewModel::onUpdateSearchQuery,
                             navController = navController
