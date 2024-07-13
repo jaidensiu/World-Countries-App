@@ -4,11 +4,15 @@ An Android app that displays country details and view a selected country on a ma
 
 ## Demo
 
-<img src="https://github.com/jaidensiu/world-countries-app/blob/master/demo.gif" height="500px" alt="App demo">
+<img src="https://github.com/jaidensiu/world-countries-app/blob/master/demo.gif" alt="App demo" height="500px">
 
 ## Countries List View
 
 <img src="countries_list.png" alt="Countries list" height="500px">
+
+## Countries Filter View
+
+<img src="countries_filter.png" alt="Countries filter" height="500px">
 
 ## Country Details View
 
@@ -29,6 +33,5 @@ An Android app that displays country details and view a selected country on a ma
 - GitHub Actions
 
 ## Resources
-- https://github.com/trevorblades/countries
-- https://studio.apollographql.com/public/countries/variant/current/home
-- https://github.com/osmdroid/osmdroid
+- [Countries GraphQL API](https://studio.apollographql.com/public/countries/variant/current/home)
+- [OpenStreetMap Android](https://github.com/osmdroid/osmdroid)
